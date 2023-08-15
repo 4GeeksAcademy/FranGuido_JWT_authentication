@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db
+from api.models import db, User
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -72,6 +72,38 @@ def serve_any_other_file(path):
     response = send_from_directory(static_file_dir, path)
     response.cache_control.max_age = 0 # avoid cache memory
     return response
+
+
+# ENDPOINTS
+
+# USER LOGIN
+@app.route('/login', methods=['POST'])
+def login():
+    body = request.get_json(silent=True)
+    if body is None:
+        raise APIException("Must send information in body", status_code=400) #bad request
+    if "email" not in body:
+        raise APIException("An email must be provided", status_code=400) #bad request
+    if "password" not in body:
+        raise APIException("A password must be provided", status_code=400) #bad request
+    
+    # Looking for user and their email
+    user_data = User.query.filter_by(email= body['email']).first()
+
+    # Check if user exists
+    if user_data is None:
+        raise APIException("User does not exist.")
+    
+    # Compare passwords
+    if user_data.password != body['password']:
+        raise APIException("Invalid password.", status_code=400) #bad request
+    
+    # Generating Token
+    access_token = create_access_token(identity=body['email'])
+    return jsonify(access_token=access_token), 200
+    
+
+
 
 
 # this only runs if `$ python src/main.py` is executed
