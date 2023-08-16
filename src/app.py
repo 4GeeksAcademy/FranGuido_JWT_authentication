@@ -92,7 +92,8 @@ def signup():
         raise APIException("An email must be provided", status_code=400) #bad request
     if "password" not in body:
         raise APIException("A password must be provided", status_code=400) #bad request
-    new_user = User(email = body['email'], password = body['password'], is_active = True)
+    pw_hash = bcrypt.generate_password_hash(body['password']).decode('utf-')
+    new_user = User(email = body['email'], password = pw_hash, is_active = True)
     db.session.add(new_user)
     db.session.commit()
     return jsonify({"User created" : body['email']}), 200
@@ -117,8 +118,8 @@ def login():
     if user_data is None:
         raise APIException("User does not exist.")
     
-    # Compare passwords
-    if user_data.password != body['password']:
+    # Compare passwords           in database encrypted // given by user
+    if bcrypt.check_password_hash(user_data.password, body['password']) is False:
         raise APIException("Invalid password.", status_code=400) #bad request
     
     # Generating Token
