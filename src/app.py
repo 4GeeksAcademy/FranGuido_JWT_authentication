@@ -18,6 +18,9 @@ from flask_jwt_extended import get_jwt_identity #gives identity to token
 from flask_jwt_extended import jwt_required # returns to endpoints with required token
 from flask_jwt_extended import JWTManager # required to initialize app
 
+# Encryptation
+from flask_bcrypt import Bcrypt
+
 #from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -28,6 +31,9 @@ app.url_map.strict_slashes = False
 # Setup the Flask-JWT-Extended extension
 app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
 jwt = JWTManager(app)
+
+# Setup encryptation with BCRYPT
+bcrypt = Bcrypt(app)
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
@@ -75,6 +81,23 @@ def serve_any_other_file(path):
 
 
 # ENDPOINTS
+
+# USER SIGNUP
+@app.route('/signup', methods=['POST'])
+def signup():
+    body = request.get_json(silent=True)
+    if body is None:
+        raise APIException("Must send information in body", status_code=400) #bad request
+    if "email" not in body:
+        raise APIException("An email must be provided", status_code=400) #bad request
+    if "password" not in body:
+        raise APIException("A password must be provided", status_code=400) #bad request
+    new_user = User(email = body['email'], password = body['password'], is_active = True)
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify({"User created" : body['email']}), 200
+
+
 
 # USER LOGIN
 @app.route('/login', methods=['POST'])
