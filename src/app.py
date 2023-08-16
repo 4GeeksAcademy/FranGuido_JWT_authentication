@@ -13,10 +13,10 @@ from api.admin import setup_admin
 from api.commands import setup_commands
 
 # Required for token usage
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import create_access_token # creates token
+from flask_jwt_extended import get_jwt_identity #gives identity to token
+from flask_jwt_extended import jwt_required # returns to endpoints with required token
+from flask_jwt_extended import JWTManager # required to initialize app
 
 #from models import Person
 
@@ -101,6 +101,15 @@ def login():
     # Generating Token
     access_token = create_access_token(identity=body['email'])
     return jsonify(access_token=access_token), 200
+
+
+# ENDPOINT FOR GETTING JSON WEB TOKEN
+# AUTHENTICATES LOGGED USER
+@app.route('/private', methods=['GET'])
+@jwt_required() #second decorator
+def private():
+    identity = get_jwt_identity() #identity of current user
+    return jsonify({ "msg": "The Token is now working.", "User identity" : identity }), 200
     
 
 
