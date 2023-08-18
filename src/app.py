@@ -83,7 +83,7 @@ def serve_any_other_file(path):
 # ENDPOINTS
 
 # USER SIGNUP
-@app.route('/signup', methods=['POST'])
+@app.route('/api/signup', methods=['POST'])
 def signup():
     body = request.get_json(silent=True)
     if body is None:
@@ -101,7 +101,7 @@ def signup():
 
 
 # USER LOGIN
-@app.route('/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def login():
     body = request.get_json(silent=True)
     if body is None:
@@ -129,7 +129,7 @@ def login():
 
 # ENDPOINT FOR GETTING JSON WEB TOKEN
 # AUTHENTICATES LOGGED USER
-@app.route('/private', methods=['GET'])
+@app.route('/api/private', methods=['GET'])
 @jwt_required() #second decorator
 def private():
     identity = get_jwt_identity() #identity of current user

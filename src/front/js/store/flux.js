@@ -1,6 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			token: null,
 			message: null,
 			demo: [
 				{
@@ -16,6 +17,58 @@ const getState = ({ getStore, getActions, setStore }) => {
 			]
 		},
 		actions: {
+
+
+			// USER LOGIN
+			login: async (email, password) => {
+				const resp = await fetch(`https://humble-chainsaw-wppr4g44gg42596v-3001.app.github.dev/api/login`, {
+					method : "POST", 
+					headers : { "Content-Type": "application/json" },
+					body : JSON.stringify({ email, password }) 
+				})
+				if (!resp.ok) throw Error("Ooops! There's an issue with the login request.")
+				
+				if (resp.status === 401) { //Unauthorized response status code (user lacks validation)
+					throw("Invalid credentials")
+				}
+				else if(resp.status === 400){
+					throw("Invalid email or password")
+				}
+				const data = await resp.json()
+				// Save token in localStorage
+				localStorage.setItem("jwt-token", data.token)
+
+				return data
+			},
+
+			// FETCH INFO FROM "PRIVATE" ENDPOINT
+			getPrivateInfo: async (email, password) => {
+				// Get token from localStorage
+				const token = localStorage.getItem('jwt-token')
+
+				const resp = fetch(`https://humble-chainsaw-wppr4g44gg42596v-3001.app.github.dev/api/login`, {
+					method : "GET",
+					headers : {
+						"Content-Type": "application/json" ,
+						"Authorization" : "Bearer" + token,
+					}
+				})
+				
+				if (!resp.ok) throw Error("Ooops! There's an issue with the login request.")
+
+				else if (resp.status === 403) { // Forbidden, no authorization to access
+					throw Error("Missing or invalid token")
+				}
+
+				const data = await resp.json()
+				console.log("This is the data you requested", data);
+				localStorage.setItem("jwt-token", data.token)
+
+				return data
+			},
+
+
+
 			// Use getActions to call a function within a fuction
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
