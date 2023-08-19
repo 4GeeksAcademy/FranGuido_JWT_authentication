@@ -1,3 +1,48 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+
+
+
+.wrapper{
+    width: 50%;
+    height: 470px;
+    background: #85BFF2;
+    border: 3px solid #0D0D0D;
+    border-radius: 25px;
+    box-shadow: 10px 10px #0D0D0D;
+    
+}
+
+.form-header{
+    color:#0D0D0D;
+    text-align: center;
+}
+
+.init-buttons{
+    color: #0D0D0D;
+    background: #F28E13;
+    border: 2px solid #0D0D0D;
+    box-shadow: 4px 4px #0D0D0D;
+
+}
+
+label{
+    color:#0D0D0D;
+    font-weight: 500;
+    margin-left: 65px;
+}
+
+.input-style{
+    border: 2px solid #0D0D0D;
+    box-shadow: 4px 4px #0D0D0D; 
+}
+
+.submit-button{
+    width: 100%;
+    
+    border: 2px solid #0D0D0D;
+    box-shadow: 4px 4px #0D0D0D;
+    background: #0AA65D;
+    color:#0D0D0D;
+}

@@ -67,6 +67,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return data
 			},
 
+			// LOGOUT
+			logout: () => {
+				sessionStorage.removeItem("token");
+				console.log("Logging out");
+				setStore({ token: null });
+			},
+
 
 
 			// Use getActions to call a function within a fuction
