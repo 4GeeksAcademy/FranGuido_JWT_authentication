@@ -5,7 +5,10 @@ import { Link } from 'react-router-dom';
 
 export const Signup = () => {
 
+  // Retrieve actions from store
+  const { store, actions } = useContext(Context);
 
+ 
 
 
 

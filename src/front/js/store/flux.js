@@ -4,6 +4,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			signupData: [],
 			loginData: [],
 			privateData: [],
+			email: null,
+			password: null,
 			token: null,
 			
 			demo: [
@@ -68,6 +70,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 				sessionStorage.removeItem("token");
 				console.log("Logging out");
 				setStore({ token: null });
+			},
+
+			// HANDLE DATA CHANGE IN EMAIL AND PASSWORD
+			handleEmail: e => {
+				setStore({[e.target.email] : e.target.value})
+			},
+
+			handlePassword: e => {
+				setStore({[e.target.password] : e.target.value})
 			},
 
 
