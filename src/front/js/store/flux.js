@@ -81,6 +81,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({[e.target.password] : e.target.value})
 			},
 
+			
 
 
 			// Use getActions to call a function within a fuction
