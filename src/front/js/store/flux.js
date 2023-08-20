@@ -34,7 +34,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					password : store.password
 				}
 
-				fetch('https://humble-chainsaw-wppr4g44gg42596v-3001.app.github.dev/api/signup', {
+				fetch('https://humble-chainsaw-wppr4g44gg42596v-3001.app.github.dev/signup', {
 					method: "POST",
 					headers : { "Content-Type": "application/json" },
 					body : JSON.stringify(user) 
@@ -51,11 +51,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore()
 				// body format
 				const user = {
-					email : "test2@email.com",
-					password : "5678"
+					email : store.email,
+					password : store.password
 				}
 
-				fetch('https://humble-chainsaw-wppr4g44gg42596v-3001.app.github.dev/api/login', {
+				fetch('https://humble-chainsaw-wppr4g44gg42596v-3001.app.github.dev/login', {
 					method: "POST",
 					headers : { "Content-Type": "application/json" },
 					body : JSON.stringify(user)
@@ -72,7 +72,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				const token = localStorage.getItem("token")
 
-				fetch('https://humble-chainsaw-wppr4g44gg42596v-3001.app.github.dev/api/private', {
+				fetch('https://humble-chainsaw-wppr4g44gg42596v-3001.app.github.dev/private', {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json" ,
