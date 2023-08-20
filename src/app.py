@@ -113,10 +113,11 @@ def login():
     
     # Looking for user and their email
     user_data = User.query.filter_by(email= body['email']).first()
+    print(user_data)
 
     # Check if user exists
     if user_data is None:
-        raise APIException("User does not exist.")
+        raise APIException("User does not exist.", status_code=400)
     
     # Compare passwords           in database encrypted // given by user
     if bcrypt.check_password_hash(user_data.password, body['password']) is False:

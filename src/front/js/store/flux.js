@@ -23,12 +23,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		actions: {
 
+
 			// FETCH USER SIGNUP DATA FROM /API/SIGNUP ENDPOINT
 			fetchSignup: () => {
-				fetch('https://humble-chainsaw-wppr4g44gg42596v-3000.app.github.dev/api/signup', {
+
+				const store = getStore()
+				// body format
+				const user = {
+					email : store.email,
+					password : store.password
+				}
+
+				fetch('https://humble-chainsaw-wppr4g44gg42596v-3001.app.github.dev/api/signup', {
 					method: "POST",
 					headers : { "Content-Type": "application/json" },
-					body : JSON.stringify({ email, password }) 
+					body : JSON.stringify(user) 
 				})
 				.then(response => response.json())
 				.then(data => {setStore({signupData : data.response})})
@@ -38,49 +47,49 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			// FETCH USER LOGIN DATA FROM /API/LOGIN ENDPOINT
 			fetchLogin: () => {
-				fetch('https://humble-chainsaw-wppr4g44gg42596v-3000.app.github.dev/api/login', {
+
+				const store = getStore()
+				// body format
+				const user = {
+					email : "test2@email.com",
+					password : "5678"
+				}
+
+				fetch('https://humble-chainsaw-wppr4g44gg42596v-3001.app.github.dev/api/login', {
 					method: "POST",
 					headers : { "Content-Type": "application/json" },
-					body : JSON.stringify({ email, password })
+					body : JSON.stringify(user)
 				})
 				.then(response => response.json())
-				.then(data => {setStore({loginData : data.response})})
+				.then(data => {localStorage.setItem("token", data.access_token)})
 				.catch(err => err)
 
-				const token = localStorage.getItem('jwt-token')
-				localStorage.setItem("jwt-token", data.token)
+				
 			},
 
 			// FETCH USER PRIVATE DATA FROM /API/PRIVATE ENDPOINT
 			fetchPrivate: () => {
-				fetch('https://humble-chainsaw-wppr4g44gg42596v-3000.app.github.dev/api/private', {
+
+				const token = localStorage.getItem("token")
+
+				fetch('https://humble-chainsaw-wppr4g44gg42596v-3001.app.github.dev/api/private', {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json" ,
 						"Authorization" : "Bearer" + token,
 					}
 				}).then(response => response.json())
-				.then(data => {setStore({privateData : data.response})})
+				.then(data => console.log(data)) //guardar token en var
 				.catch(err => err)
 			},
 
-			
-			// LOGOUT
-			logout: () => {
-				sessionStorage.removeItem("token");
-				console.log("Logging out");
-				setStore({ token: null });
-			},
 
 			// HANDLE DATA CHANGE IN EMAIL AND PASSWORD
-			handleEmail: e => {
-				setStore({[e.target.email] : e.target.value})
+			handleChange: e => {
+				setStore({[e.target.name] : e.target.value})
 			},
 
-			handlePassword: e => {
-				setStore({[e.target.password] : e.target.value})
-			},
-
+		
 			
 
 

@@ -8,14 +8,10 @@ export const Signup = () => {
   // Retrieve actions from store
   const { store, actions } = useContext(Context);
 
-  // Update email and password
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // Controller component (update email and password)
 
-  const handleSignup = (e) => {
-    actions.fetchSignup();
-  }
-
+  console.log(store.email)
+  console.log(store.password)
 
 
   return (
@@ -30,7 +26,11 @@ export const Signup = () => {
           </div>
         </div>
 
-        <form onSubmit={handleSignup}>
+        <form onSubmit={(e) =>{
+          e.preventDefault()
+          actions.fetchSignup()
+          e.target.reset()
+        }}>
         <div className='row mt-4'>
           <div className='form-header col'>
             <h2>SIGNUP</h2>
@@ -43,7 +43,7 @@ export const Signup = () => {
             <label className="col-sm-2 form-label">Email:</label>
           </div>
           <div className="col-sm-10">
-            <input type="text" name="email" onChange={actions.handleEmail} className="form-control input-style" placeholder="email@example.com" required></input>
+            <input type="text" name="email" onChange={actions.handleChange} className="form-control input-style" required></input>
           </div>
         </div>
 
@@ -52,7 +52,7 @@ export const Signup = () => {
             <label className="col-sm-2 col-form-label">Password:</label>
           </div>
           <div className="col-sm-10">
-            <input type="password" name="password" onChange={actions.handlePassword} className="form-control input-style" placeholder="**********" required></input>
+            <input type="password" name="password" onChange={actions.handleChange} className="form-control input-style"  required></input>
           </div>
         </div>
 
