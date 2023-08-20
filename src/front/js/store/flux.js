@@ -61,7 +61,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					body : JSON.stringify(user)
 				})
 				.then(response => response.json())
-				.then(data => {localStorage.setItem("token", data.access_token)})
+				.then(data => {localStorage.setItem("token", data.access_token)}) // Storage token
 				.catch(err => err)
 
 				

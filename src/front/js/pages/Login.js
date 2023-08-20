@@ -7,15 +7,9 @@ export const Login = () => {
     // Retrieve actions from store
     const { store, actions } = useContext(Context);
 
-    
-  // Controller component (update email and password)
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleClick = () => {
-				
-    actions.fetchLogin();
-  }
+    // Checking
+    console.log(store.email)
+    console.log(store.password)
    
 
     return (
@@ -27,13 +21,17 @@ export const Login = () => {
                     </div>
                 </div>
 
-                <form>
+                <form onSubmit={(e) => {
+                    e.preventDefault()
+                    actions.fetchLogin()
+                    e.target.reset()
+                }}>
                 <div className="mb-3 row mt-5 justify-content-center">
                     <div >
                         <label className="col-sm-2 form-label">Email:</label>
                     </div>
                     <div className="col-sm-10">
-                        <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control input-style" placeholder="email@example.com" ></input>
+                        <input type="text" name="email" onChange={actions.handleChange} className="form-control input-style" placeholder="email@example.com" required></input>
                     </div>
                 </div>
 
@@ -42,13 +40,13 @@ export const Login = () => {
                         <label className="col-sm-2 col-form-label">Password:</label>
                     </div>
                     <div className="col-sm-10">
-                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control input-style" placeholder="**********" ></input>
+                        <input type="password" name="password" onChange={actions.handleChange} className="form-control input-style" placeholder="**********" ></input>
                     </div>
                 </div>
 
                 <div className="row justify-content-center">
                     <div className='col-sm-10 mt-4'>
-                        <button type='submit' className='submit-button btn btn-primary' onClick={handleClick}>Login</button>
+                        <button type='submit' className='submit-button btn btn-primary'>Login</button>
                     </div>
                 </div>
                 </form>
