@@ -1,8 +1,11 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			signupData: [],
+			loginData: [],
+			privateData: [],
 			token: null,
-			message: null,
+			
 			demo: [
 				{
 					title: "FIRST",
@@ -18,55 +21,48 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		actions: {
 
-
-			// USER LOGIN
-			login: async (email, password) => {
-				const resp = await fetch(`https://humble-chainsaw-wppr4g44gg42596v-3001.app.github.dev/api/login`, {
-					method : "POST", 
+			// FETCH USER SIGNUP DATA FROM /API/SIGNUP ENDPOINT
+			fetchSignup: () => {
+				fetch('https://humble-chainsaw-wppr4g44gg42596v-3000.app.github.dev/api/signup', {
+					method: "POST",
 					headers : { "Content-Type": "application/json" },
 					body : JSON.stringify({ email, password }) 
 				})
-				if (!resp.ok) throw Error("Ooops! There's an issue with the login request.")
-				
-				if (resp.status === 401) { //Unauthorized response status code (user lacks validation)
-					throw("Invalid credentials")
-				}
-				else if(resp.status === 400){
-					throw("Invalid email or password")
-				}
-				const data = await resp.json()
-				// Save token in localStorage
-				localStorage.setItem("jwt-token", data.token)
-
-				return data
+				.then(response => response.json())
+				.then(data => {setStore({signupData : data.response})})
+				.catch(err => err)
 			},
 
-			// FETCH INFO FROM "PRIVATE" ENDPOINT
-			getPrivateInfo: async (email, password) => {
-				// Get token from localStorage
-				const token = localStorage.getItem('jwt-token')
 
-				const resp = fetch(`https://humble-chainsaw-wppr4g44gg42596v-3001.app.github.dev/api/login`, {
-					method : "GET",
-					headers : {
+			// FETCH USER LOGIN DATA FROM /API/LOGIN ENDPOINT
+			fetchLogin: () => {
+				fetch('https://humble-chainsaw-wppr4g44gg42596v-3000.app.github.dev/api/login', {
+					method: "POST",
+					headers : { "Content-Type": "application/json" },
+					body : JSON.stringify({ email, password })
+				})
+				.then(response => response.json())
+				.then(data => {setStore({loginData : data.response})})
+				.catch(err => err)
+
+				const token = localStorage.getItem('jwt-token')
+				localStorage.setItem("jwt-token", data.token)
+			},
+
+			// FETCH USER PRIVATE DATA FROM /API/PRIVATE ENDPOINT
+			fetchPrivate: () => {
+				fetch('https://humble-chainsaw-wppr4g44gg42596v-3000.app.github.dev/api/private', {
+					method: "GET",
+					headers: {
 						"Content-Type": "application/json" ,
 						"Authorization" : "Bearer" + token,
 					}
-				})
-				
-				if (!resp.ok) throw Error("Ooops! There's an issue with the login request.")
-
-				else if (resp.status === 403) { // Forbidden, no authorization to access
-					throw Error("Missing or invalid token")
-				}
-
-				const data = await resp.json()
-				console.log("This is the data you requested", data);
-				localStorage.setItem("jwt-token", data.token)
-
-				return data
+				}).then(response => response.json())
+				.then(data => {setStore({privateData : data.response})})
+				.catch(err => err)
 			},
 
+			
 			// LOGOUT
 			logout: () => {
 				sessionStorage.removeItem("token");
