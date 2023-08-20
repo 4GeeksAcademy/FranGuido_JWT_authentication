@@ -19,11 +19,15 @@
     text-align: center;
 }
 
-.init-buttons{
-    color: #0D0D0D;
-    background: #F28E13;
+
+.login-button{
+    width: 25%;
+    margin-top: 15px;
     border: 2px solid #0D0D0D;
     box-shadow: 4px 4px #0D0D0D;
+    background: #F28E13;
+    color:#0D0D0D;
+   
 
 }
 
@@ -40,7 +44,6 @@ label{
 
 .submit-button{
     width: 100%;
-    
     border: 2px solid #0D0D0D;
     box-shadow: 4px 4px #0D0D0D;
     background: #0AA65D;
