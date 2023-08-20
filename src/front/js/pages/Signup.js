@@ -15,7 +15,7 @@ export const Signup = () => {
       <div className='wrapper container mt-5'>
         <div className="row justify-content-center">
           <div className='col-sm-10 mt-4 '>
-            <Link to = {'/login'}>
+            <Link to = {'/api/login'}>
               <button type='button' className='login-button btn btn-primary'>Login</button>
             </Link>
           </div>
