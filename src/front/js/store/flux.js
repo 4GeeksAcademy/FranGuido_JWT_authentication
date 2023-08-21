@@ -70,6 +70,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// FETCH USER PRIVATE DATA FROM /API/PRIVATE ENDPOINT
 			fetchPrivate: () => {
 
+				const store = getStore()
 				const token = localStorage.getItem("token")
 
 				fetch('https://humble-chainsaw-wppr4g44gg42596v-3001.app.github.dev/private', {
@@ -79,9 +80,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"Authorization" : "Bearer" + token,
 					}
 				}).then(response => response.json())
-				.then(data => console.log(data)) //guardar token en var
+				.then(data => data.identity) //guardar token en var (habia console.log(data))
 				.catch(err => err)
+
+				console.log(data.identity) //esto es nuevo
 			},
+
+			// LOGOUT
+			logout: () => {
+				localStorage.clear();
+			  },
 
 
 			// HANDLE DATA CHANGE IN EMAIL AND PASSWORD

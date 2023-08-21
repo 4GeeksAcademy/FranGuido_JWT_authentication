@@ -1,14 +1,15 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Context } from '../store/appContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 export const Signup = () => {
 
   // Retrieve actions from store
   const { store, actions } = useContext(Context);
+  const navigate = useNavigate();
 
-  // Controller component (update email and password)
+
 
   console.log(store.email)
   console.log(store.password)
@@ -24,6 +25,7 @@ export const Signup = () => {
           e.preventDefault()
           actions.fetchSignup()
           e.target.reset()
+          navigate("/login")
         }}>
           <div className='row mt-4'>
             <div className='form-header col'>
@@ -59,7 +61,7 @@ export const Signup = () => {
           <div className="row justify-content-center">
             <div className='col-sm-10 mt-3'>
               <Link to={'/login'}>
-                <button type='button' className='login-button btn btn-primary'>Login</button>
+                <button type='button' className='login-button btn btn-primary'>... or Login</button>
               </Link>
             </div>
           </div>

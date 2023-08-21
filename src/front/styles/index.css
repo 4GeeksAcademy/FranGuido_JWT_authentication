@@ -31,6 +31,15 @@
 
 }
 
+.logout{
+    width: 100%;
+    margin-top: 280px;
+    border: 2px solid #0D0D0D;
+    box-shadow: 4px 4px #0D0D0D;
+    background: #FF293B;
+    color:#0D0D0D;
+}
+
 label{
     color:#0D0D0D;
     font-weight: 500;
