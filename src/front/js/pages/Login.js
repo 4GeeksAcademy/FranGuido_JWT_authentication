@@ -29,7 +29,7 @@ export const Login = () => {
                     actions.fetchLogin()
                     e.target.reset()
                     
-                    !store.token ? alert("Access denied. Go back.") : alert("You're logged") #si ingreso info incorrecta, la alerta sí funciona
+                    !store.token ? alert("Access denied. Go back.") : alert("You're logged") //si ingreso info incorrecta, la alerta sí funciona
                     navigate("/private") //Pero arreglar, porque siempre pasa a private
                 }}>
                 <div className="mb-3 row mt-5 justify-content-center">
